@@ -21,6 +21,3 @@ runtime=300s
 # 2x SAS drives with GPT partition & MDRAID0 (sdi1 + sdc1)
 # Seagate 7200RPM SAS 512G ST9500430SS
 [/dev/disk/by-id/md-uuid-6bb71ed6:e4410fc9:b27af0b7:0afe758d]
-
-# 2x Enterprise SATA 7200RPM 512GB btrfs RAID1 (sde & sdf)
-[/fio]
