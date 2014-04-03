@@ -1,0 +1,15 @@
+[global]
+# use the libaio backend, others include mmap, sg, sync, and many more
+ioengine=libaio
+# use unbuffered IO
+direct=1
+# only do reads, no writes
+rw=read
+# read 10GB of data before terminating
+size=10g
+
+# use the SAS drive with WWN 0x5000c5000d7f7d21
+[/dev/disk/by-path/pci-0000:03:00.0-sas-0x5000c5000d7f7d21-lun-0]
+
+# use the SATA SSD in my eSATA chassis
+[/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1ANNSADB05219A]

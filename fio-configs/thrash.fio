@@ -1,0 +1,26 @@
+# a 5 minute disk thrashing benchmark
+# generates equal amounts of random read and write IO on every drive
+# will generate metrics for each drive
+[global]
+ioengine=libaio
+direct=1
+unified_rw_reporting=1
+rw=randrw
+time_based=1
+runtime=300s
+
+# Seagate 7200RPM SAS 512G ST9500430SS (sdb)
+[/dev/disk/by-path/pci-0000:03:00.0-sas-0x5000c5000d7f96d9-lun-0]
+
+# Seagate 7200RPM Enterprise SATA 1TB ST31000340NS (sdg)
+[/dev/disk/by-id/wwn-0x5000c500151229dd]
+
+# Samsung 840 Pro 128GB (on a 3G SATA port) (sdd)
+[/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1ANNSADB05219A]
+
+# 2x SAS drives with GPT partition & MDRAID0 (sdi1 + sdc1)
+# Seagate 7200RPM SAS 512G ST9500430SS
+[/dev/disk/by-id/md-uuid-6bb71ed6:e4410fc9:b27af0b7:0afe758d]
+
+# 2x Enterprise SATA 7200RPM 512GB btrfs RAID1 (sde & sdf)
+[/fio]

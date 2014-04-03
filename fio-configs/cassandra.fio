@@ -1,0 +1,48 @@
+# an early attempt at emulating a Cassandra IO pattern
+# it doesn't really work very well, but it's a start
+
+[global]
+rw=readwrite
+directory=/fio
+ioengine=mmap
+iodepth=8
+invalidate=1
+direct=0
+randrepeat=1
+randseed=11011846464044
+fallocate=none
+thread=1
+fadvise_hint=0
+blocksize=8k
+time_based=1
+#runtime=300s
+nrfiles=100
+filesize=160m
+filename_format=cassandra.$filenum
+file_service_type=sequential
+
+# this should create all the files that are shared by the read/write jobs
+[setup]
+readwrite=write
+end_fsync=1
+runtime=1
+stonewall
+
+# these two should run in parallel
+[sstable_writer]
+readwrite=write
+runtime=60s
+openfiles=1
+write_bw_log=writer-bw
+write_lat_log=writer-lat
+write_iops_log=writer-iops
+
+[sstable_reader]
+rw=randread
+runtime=60s
+openfiles=10
+file_service_type=random
+write_bw_log=reader-bw
+write_lat_log=reader-lat
+write_iops_log=reader-iops
+
