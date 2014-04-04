@@ -13,7 +13,7 @@ type Latency struct {
 	Max        float64         `json:"max"`
 	Mean       float64         `json:"mean"`
 	Stdev      float64         `json:"stdev"`
-	percentile map[float64]int `json:"percentile"`
+	Percentile map[float64]int `json:"percentile"`
 }
 
 type JobStats struct {
@@ -27,6 +27,8 @@ type JobStats struct {
 	Iops      int     `json:"iops"`
 	Runtime   int     `json:"runtime"`
 	Slat      Latency `json:"slat"`
+	Clat      Latency `json:"clat"`
+	Lat       Latency `json:"lat"`
 }
 
 type ClientStat struct {
