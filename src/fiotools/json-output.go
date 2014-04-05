@@ -3,7 +3,6 @@ package fiotools
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -23,15 +22,15 @@ type Latency struct {
 }
 
 type JobStats struct {
-	IoBytes   int     `json:"io_bytes"`
-	Bandwidth float64 `json:"bw"`
-	BwMin     float64 `json:"bw_min"`
-	BwMax     float64 `json:"bw_max"`
-	BwAgg     float64 `json:"bw_agg"`
-	BwMean    float64 `json:"bw_mean"`
-	BwStdev   float64 `json:"bw_dev"`
-	Iops      int     `json:"iops"`
-	Runtime   int     `json:"runtime"`
+	IoBytes   int      `json:"io_bytes"`
+	Bandwidth float64  `json:"bw"`
+	BwMin     float64  `json:"bw_min"`
+	BwMax     float64  `json:"bw_max"`
+	BwAgg     float64  `json:"bw_agg"`
+	BwMean    float64  `json:"bw_mean"`
+	BwStdev   float64  `json:"bw_dev"`
+	Iops      int      `json:"iops"`
+	Runtime   int      `json:"runtime"`
 	Slat      *Latency `json:"slat"`
 	Clat      *Latency `json:"clat"`
 	Lat       *Latency `json:"lat"`
@@ -41,7 +40,7 @@ type ClientStat struct {
 	Jobname         string             `json:"jobname"`
 	Groupid         int                `json:"groupid"`
 	Error           int                `json:"error"`
-	Mixed           *JobStats           `json:"mixed"` // fio config dependent
+	Mixed           *JobStats          `json:"mixed"` // fio config dependent
 	UsrCpu          float64            `json:"usr_cpu"`
 	SysCpu          float64            `json:"sys_cpu"`
 	ContextSwitches int                `json:"ctx"`
@@ -95,13 +94,12 @@ func LoadFioJson(filename string) (fio_data FioData) {
 		cs.LatencyMsec = cleanKeys(cs.LatencyMsecRaw)
 
 		// TODO: add similar checks for Read/Write once I know the final names
-		//cleanPercentiles(&cs.Mixed)
-		//fmt.Printf("Cleaned: %v\n", cs.Mixed.Clat.Percentile)
-		newval := cleanKeys(cs.Mixed.Clat.PercentileRaw)
-		cs.Mixed.Clat.Percentile = newval
+		cleanPercentiles(cs.Mixed)
+		/* cs.Mixed.Lat.Percentile = cleanKeys(cs.Mixed.Lat.PercentileRaw)
+		cs.Mixed.Clat.Percentile = cleanKeys(cs.Mixed.Clat.PercentileRaw)
+		cs.Mixed.Slat.Percentile = cleanKeys(cs.Mixed.Slat.PercentileRaw) */
 	}
 
-	fmt.Printf("") // silence compiler warning
 	return fio_data
 }
 
@@ -111,7 +109,7 @@ func cleanPercentiles(in *JobStats) {
 	in.Slat.Percentile = cleanKeys(in.Slat.PercentileRaw)
 }
 
-func cleanKeys(in map[string]float64) (map[float64]float64) {
+func cleanKeys(in map[string]float64) map[float64]float64 {
 	if in == nil {
 		return nil
 	}
