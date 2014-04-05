@@ -21,9 +21,10 @@ import (
 
 // TODO: flags
 
-// uses the bargraph render instead of histogram because fio only
-// provides the bucket averages
+// just a simple line chart to get started
 func main() {
+	// map the job name from fio config file to a more useful name for the legend
+	// note: fio job names are just arbitrary strings
 	// TODO: throw this in a JSON file
 	legend := map[string]string{
 		"/dev/disk/by-path/pci-0000:03:00.0-sas-0x5000c5000d7f96d9-lun-0": "SAS",
