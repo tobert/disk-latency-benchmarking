@@ -3,6 +3,7 @@ package fiotools
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -31,16 +32,16 @@ type JobStats struct {
 	BwStdev   float64 `json:"bw_dev"`
 	Iops      int     `json:"iops"`
 	Runtime   int     `json:"runtime"`
-	Slat      Latency `json:"slat"`
-	Clat      Latency `json:"clat"`
-	Lat       Latency `json:"lat"`
+	Slat      *Latency `json:"slat"`
+	Clat      *Latency `json:"clat"`
+	Lat       *Latency `json:"lat"`
 }
 
 type ClientStat struct {
 	Jobname         string             `json:"jobname"`
 	Groupid         int                `json:"groupid"`
 	Error           int                `json:"error"`
-	Mixed           JobStats           `json:"mixed"` // fio config dependent
+	Mixed           *JobStats           `json:"mixed"` // fio config dependent
 	UsrCpu          float64            `json:"usr_cpu"`
 	SysCpu          float64            `json:"sys_cpu"`
 	ContextSwitches int                `json:"ctx"`
@@ -94,9 +95,13 @@ func LoadFioJson(filename string) (fio_data FioData) {
 		cs.LatencyMsec = cleanKeys(cs.LatencyMsecRaw)
 
 		// TODO: add similar checks for Read/Write once I know the final names
-		cleanPercentiles(&cs.Mixed)
+		//cleanPercentiles(&cs.Mixed)
+		//fmt.Printf("Cleaned: %v\n", cs.Mixed.Clat.Percentile)
+		newval := cleanKeys(cs.Mixed.Clat.PercentileRaw)
+		cs.Mixed.Clat.Percentile = newval
 	}
 
+	fmt.Printf("") // silence compiler warning
 	return fio_data
 }
 
