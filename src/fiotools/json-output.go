@@ -95,9 +95,6 @@ func LoadFioJson(filename string) (fio_data FioData) {
 
 		// TODO: add similar checks for Read/Write once I know the final names
 		cleanPercentiles(cs.Mixed)
-		/* cs.Mixed.Lat.Percentile = cleanKeys(cs.Mixed.Lat.PercentileRaw)
-		cs.Mixed.Clat.Percentile = cleanKeys(cs.Mixed.Clat.PercentileRaw)
-		cs.Mixed.Slat.Percentile = cleanKeys(cs.Mixed.Slat.PercentileRaw) */
 	}
 
 	return fio_data
